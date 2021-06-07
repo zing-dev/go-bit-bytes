@@ -1,4 +1,4 @@
-package bb
+package bin
 
 import (
 	"encoding/binary"
@@ -27,17 +27,17 @@ const (
 // DefaultEndPont 默认大端
 var DefaultEndPont binary.ByteOrder = binary.BigEndian
 
-// InitIntBytes 初始化二进制字节切片
-func InitIntBytes(length int) []byte {
+// Init 初始化二进制字节切片
+func Init(length int) []byte {
 	switch length {
 	case BytesByteLength:
-		return Byte2Bytes(byte(0xff))
+		return FromByte(byte(0xff))
 	case BytesInt16Length:
-		return Uint162Bytes(uint16(0xffff))
+		return FromUint16(uint16(0xffff))
 	case BytesIntLength:
-		return Uint2Bytes(uint32(0xffffffff))
+		return FromUint(uint32(0xffffffff))
 	case BytesInt64Length:
-		return Uint642Bytes(uint64(0xffffffffffffffff))
+		return FromUint64(uint64(0xffffffffffffffff))
 	}
 	panic("error length")
 }
@@ -54,8 +54,8 @@ func Revert(bytes []byte) []byte {
 	return bytes
 }
 
-// Bytes2Byte 二进制字节切片转换成字节
-func Bytes2Byte(bytes []byte) (b byte) {
+// ToByte 二进制字节切片转换成字节
+func ToByte(bytes []byte) (b byte) {
 	length := len(bytes)
 	if length < BytesByteLength {
 		bytes = append(make([]byte, BytesByteLength-length), bytes...)
@@ -68,8 +68,8 @@ func Bytes2Byte(bytes []byte) (b byte) {
 	return
 }
 
-// Byte2Bytes 字节转换成二进制字节切片
-func Byte2Bytes(b byte) (bytes []byte) {
+// FromByte 字节转换成二进制字节切片
+func FromByte(b byte) (bytes []byte) {
 	bytes = make([]byte, BytesByteLength)
 	for k := range bytes {
 		bytes[BytesByteLength-k-1] = b >> k & 1
@@ -77,8 +77,8 @@ func Byte2Bytes(b byte) (bytes []byte) {
 	return
 }
 
-// Bytes2Int16 二进制字节切片转换成int16
-func Bytes2Int16(bytes []byte) (i int16) {
+// ToInt16 二进制字节切片转换成int16
+func ToInt16(bytes []byte) (i int16) {
 	length := len(bytes)
 	if length < BytesInt16Length {
 		bytes = append(make([]byte, BytesInt16Length-length), bytes...)
@@ -91,24 +91,24 @@ func Bytes2Int16(bytes []byte) (i int16) {
 	return
 }
 
-// Int162Bytes int16 转换成二进制字节切片
-func Int162Bytes(i int16) (bytes []byte) {
-	return Uint162Bytes(uint16(i))
+// FromInt16 int16 转换成二进制字节切片
+func FromInt16(i int16) (bytes []byte) {
+	return FromUint16(uint16(i))
 }
 
-// Uint162Bytes uint16 转换成二进制字节切片
-func Uint162Bytes(i uint16) (bytes []byte) {
+// FromUint16 uint16 转换成二进制字节切片
+func FromUint16(i uint16) (bytes []byte) {
 	var b = make([]byte, BitInt16Length)
 	bytes = make([]byte, BytesInt16Length)
 	DefaultEndPont.PutUint16(b, i)
 	for k, v := range b {
-		copy(bytes[k*BytesByteLength:(k+1)*BytesByteLength], Byte2Bytes(v))
+		copy(bytes[k*BytesByteLength:(k+1)*BytesByteLength], FromByte(v))
 	}
 	return
 }
 
-// Bytes2Int 二进制字节切片转换成 int 整型
-func Bytes2Int(bytes []byte) (i int) {
+// ToInt 二进制字节切片转换成 int 整型
+func ToInt(bytes []byte) (i int) {
 	length := len(bytes)
 	if length < BytesIntLength {
 		bytes = append(make([]byte, BytesIntLength-length), bytes...)
@@ -121,24 +121,24 @@ func Bytes2Int(bytes []byte) (i int) {
 	return
 }
 
-// Int2Bytes int转换成二进制字节切片
-func Int2Bytes(i int) (bytes []byte) {
-	return Uint2Bytes(uint32(i))
+// FromInt int转换成二进制字节切片
+func FromInt(i int) (bytes []byte) {
+	return FromUint(uint32(i))
 }
 
-// Uint2Bytes uint转换成二进制字节切片
-func Uint2Bytes(i uint32) (bytes []byte) {
+// FromUint uint转换成二进制字节切片
+func FromUint(i uint32) (bytes []byte) {
 	var b = make([]byte, BitIntLength)
 	bytes = make([]byte, BytesIntLength)
 	DefaultEndPont.PutUint32(b, i)
 	for k, v := range b {
-		copy(bytes[k*BytesByteLength:(k+1)*BytesByteLength], Byte2Bytes(v))
+		copy(bytes[k*BytesByteLength:(k+1)*BytesByteLength], FromByte(v))
 	}
 	return
 }
 
-// Bytes2Int64 二进制字节切片转换int64
-func Bytes2Int64(bytes []byte) (i int64) {
+// ToInt64 二进制字节切片转换int64
+func ToInt64(bytes []byte) (i int64) {
 	length := len(bytes)
 	if length < BytesInt64Length {
 		bytes = append(make([]byte, BytesInt64Length-length), bytes...)
@@ -151,18 +151,18 @@ func Bytes2Int64(bytes []byte) (i int64) {
 	return
 }
 
-// Int642Bytes int64 转换成 二进制字节切片
-func Int642Bytes(i int64) (bytes []byte) {
-	return Uint642Bytes(uint64(i))
+// FromInt64 int64 转换成 二进制字节切片
+func FromInt64(i int64) (bytes []byte) {
+	return FromUint64(uint64(i))
 }
 
-// Uint642Bytes uint16 转换成二进制字节切片
-func Uint642Bytes(i uint64) (bytes []byte) {
+// FromUint64 uint16 转换成二进制字节切片
+func FromUint64(i uint64) (bytes []byte) {
 	var b = make([]byte, BitInt64Length)
 	bytes = make([]byte, BytesInt64Length)
 	DefaultEndPont.PutUint64(b, i)
 	for k, v := range b {
-		copy(bytes[k*BytesByteLength:(k+1)*BytesByteLength], Byte2Bytes(v))
+		copy(bytes[k*BytesByteLength:(k+1)*BytesByteLength], FromByte(v))
 	}
 	return
 }

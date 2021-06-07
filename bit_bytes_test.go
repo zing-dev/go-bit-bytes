@@ -9,6 +9,13 @@ import (
 	"testing"
 )
 
+func TestInitIntBytes(t *testing.T) {
+	log.Println(bb.InitIntBytes(bb.BytesByteLength))
+	log.Println(bb.InitIntBytes(bb.BytesInt16Length))
+	log.Println(bb.InitIntBytes(bb.BytesIntLength))
+	log.Println(bb.InitIntBytes(bb.BytesInt64Length))
+}
+
 func TestRevert(t *testing.T) {
 	log.Println(bb.Revert([]byte{1, 2, 3, 4, 5, 6, 7, 8}))
 	log.Println(bb.Revert([]byte{1, 2, 3, 4}))

@@ -17,8 +17,10 @@ const (
 	bytesInt64Length = 64
 )
 
-var DefaultEndPont = binary.BigEndian
+// DefaultEndPont 默认大端
+var DefaultEndPont binary.ByteOrder = binary.BigEndian
 
+// Revert 字节反转
 func Revert(bytes []byte) []byte {
 	total := len(bytes)
 	half := total / 2
@@ -30,6 +32,7 @@ func Revert(bytes []byte) []byte {
 	return bytes
 }
 
+// Bytes2Byte 二进制字节切片转换成字节
 func Bytes2Byte(bytes []byte) (b byte) {
 	length := len(bytes)
 	if length < bytesByteLength {
@@ -43,6 +46,7 @@ func Bytes2Byte(bytes []byte) (b byte) {
 	return
 }
 
+// Byte2Bytes 字节转换成二进制字节切片
 func Byte2Bytes(b byte) (bytes []byte) {
 	bytes = make([]byte, bytesByteLength)
 	for k := range bytes {
@@ -51,6 +55,7 @@ func Byte2Bytes(b byte) (bytes []byte) {
 	return
 }
 
+// Bytes2Int16 二进制字节切片转换成int16
 func Bytes2Int16(bytes []byte) (i int16) {
 	length := len(bytes)
 	if length < bytesInt16Length {
@@ -64,10 +69,12 @@ func Bytes2Int16(bytes []byte) (i int16) {
 	return
 }
 
+// Int162Bytes int16 转换成二进制字节切片
 func Int162Bytes(i int16) (bytes []byte) {
 	return Uint162Bytes(uint16(i))
 }
 
+// Uint162Bytes uint16 转换成二进制字节切片
 func Uint162Bytes(i uint16) (bytes []byte) {
 	var b = make([]byte, bitInt16Length)
 	bytes = make([]byte, bytesInt16Length)
@@ -78,6 +85,7 @@ func Uint162Bytes(i uint16) (bytes []byte) {
 	return
 }
 
+// Bytes2Int 二进制字节切片转换成 int 整型
 func Bytes2Int(bytes []byte) (i int) {
 	length := len(bytes)
 	if length < bytesIntLength {
@@ -91,10 +99,12 @@ func Bytes2Int(bytes []byte) (i int) {
 	return
 }
 
+// Int2Bytes int转换成二进制字节切片
 func Int2Bytes(i int) (bytes []byte) {
 	return Uint2Bytes(uint32(i))
 }
 
+// Uint2Bytes uint转换成二进制字节切片
 func Uint2Bytes(i uint32) (bytes []byte) {
 	var b = make([]byte, bitIntLength)
 	bytes = make([]byte, bytesIntLength)
@@ -105,6 +115,7 @@ func Uint2Bytes(i uint32) (bytes []byte) {
 	return
 }
 
+// Bytes2Int64 二进制字节切片转换int64
 func Bytes2Int64(bytes []byte) (i int64) {
 	length := len(bytes)
 	if length < bytesInt64Length {
@@ -118,10 +129,12 @@ func Bytes2Int64(bytes []byte) (i int64) {
 	return
 }
 
+// Int642Bytes int64 转换成 二进制字节切片
 func Int642Bytes(i int64) (bytes []byte) {
 	return Uint642Bytes(uint64(i))
 }
 
+// Uint642Bytes uint16 转换成二进制字节切片
 func Uint642Bytes(i uint64) (bytes []byte) {
 	var b = make([]byte, bitInt64Length)
 	bytes = make([]byte, bytesInt64Length)

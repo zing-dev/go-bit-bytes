@@ -1,6 +1,7 @@
 package bb_test
 
 import (
+	"encoding/binary"
 	"fmt"
 	"github.com/zing-dev/go-bit-bytes"
 	"log"
@@ -28,6 +29,15 @@ func TestBytes2Byte(t *testing.T) {
 }
 
 func TestInt162Bytes(t *testing.T) {
+	bb.DefaultEndPont = binary.LittleEndian
+	log.Println(bb.Int162Bytes(1))
+	log.Println(bb.Int162Bytes(0xf))
+	log.Println(bb.Int162Bytes(0xff))
+	log.Println(bb.Int162Bytes(0xfff))
+	log.Println(bb.Int162Bytes(0xfff << 2))
+	log.Println(bb.Int162Bytes(0xfff << 3))
+
+	bb.DefaultEndPont = binary.BigEndian
 	log.Println(bb.Int162Bytes(1))
 	log.Println(bb.Int162Bytes(0xf))
 	log.Println(bb.Int162Bytes(0xff))
